@@ -1,0 +1,61 @@
+{
+    "manifest_version": 3,
+    "name": "CuratelyAi",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.linkedin.com/*"
+            ],
+            "js": [
+                "jquery.min.js",
+                "searchList.js",
+                "CuratelyInjectedScript.js",
+                "intro.js",
+                "lib/swal.js"
+            ],
+            "css": [
+                "introjs.css",
+                "popup.css"
+            ],
+            "run_at": "document_end",
+            "permissions": [
+                "file://*/*"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "searchList.html",
+                "alert.png",
+                "black_logo.png"
+            ],
+            "matches": [
+                "https://www.linkedin.com/*"
+            ]
+        }
+    ],
+    "background": {
+        "service_worker": "service-worker.js"
+    },
+    "icons": {
+        "16": "black_logo.png",
+        "32": "black_logo.png"
+    },
+    "permissions": [
+        "tabs",
+        "downloads",
+        "webRequest",
+        "scripting",
+        "cookies",
+        "downloads",
+        "downloads.open",
+        "storage",
+        "unlimitedStorage"
+    ],
+    "host_permissions": [
+        "file://*/*",
+        "https://*.linkedin.com/*"
+    ]
+}

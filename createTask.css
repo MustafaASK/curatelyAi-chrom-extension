@@ -1,0 +1,142 @@
+.l-body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #1f2029;
+  background-color: #fff;
+  overflow: hidden;
+  background-image: url('https://assets.codepen.io/1462889/back-page.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 101%;
+}
+
+.l-p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #1f2029;
+}
+
+.l-section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.full-height {
+  min-height: 100vh;
+}
+
+.l-modal-btn {
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 2;
+  height: 50px;
+  transition: all 200ms linear;
+  border-radius: 4px;
+  width: 240px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  background-color: #102770;
+  color: #ffeba7;
+  box-shadow: 0 12px 35px 0 rgba(16, 39, 112, .25);
+}
+
+.l-modal-btn:hover {
+  background-color: #ffeba7;
+  color: #102770;
+}
+
+.l-modal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(31, 32, 41, .75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+.l-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.l-modal-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 12px 25px 0 rgba(199, 175, 189, .25);
+  overflow: hidden;
+  padding-bottom: 20px;
+  transform: scale(0.6);
+  transition: transform 300ms ease;
+}
+
+.l-modal.active .l-modal-wrap {
+  transform: scale(1);
+}
+
+.l-modal-wrap img {
+  width: 100%;
+  height: auto;
+}
+
+.l-modal-wrap p {
+  padding: 20px 30px 0 30px;
+}
+
+.logo {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  z-index: 1000;
+  transition: all 250ms linear;
+}
+
+.logo img {
+  height: 26px;
+  width: auto;
+  filter: brightness(10%);
+  transition: filter 250ms linear;
+}
+
+.l-modal.active ~ .logo img {
+  filter: brightness(100%);
+}
+
+@media screen and (max-width: 500px) {
+  .l-modal-wrap {
+      width: calc(100% - 40px);
+      padding-bottom: 15px;
+  }
+
+  .l-modal-wrap p {
+      padding: 15px 20px 0 20px;
+  }
+}
+
+
+
+
