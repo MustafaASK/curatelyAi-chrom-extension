@@ -1,15 +1,14 @@
 var currentUri;
 var connection_estalish = false
 var ping_interval;
-var continueWithoutMessage = false;
 
 const drag_drop_btn_innerHtml = `
     <div id="curtly_drag_drop_btn_logo" style="cursor: pointer; border-radius: 5px; padding: 5px; display: flex; justify-content: center; align-items: center;">
-        <img src="` + chrome.runtime.getURL('black_logo.png') + `" style="border-radius: 4px;" width="35" height="35">
+        <img src="` + chrome.runtime.getURL('black_logo.png') + `" style="border-radius: 4px;" width="40" height="40">
     </div>
-    <div id="curtly_drag_drop_btn_area" style="display: flex; justify-content: center; align-items: center;">
-        <svg style="cursor: grab;" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-grip-horizontal" viewBox="0 0 16 16">
-            <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+    <div id="curtly_drag_drop_btn_area" style="display: none; justify-content: center; align-items: center;">
+        <svg style="cursor: grab;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-grip-vertical" viewBox="0 0 16 16">
+            <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
         </svg>
     </div>
 `;
@@ -17,24 +16,26 @@ const drag_drop_btn_innerHtml = `
 window.onload = async () => {
     await chrome.storage.sync.remove('actionType');
     setInterval(start, 200);
-    console.log("is coming")
     setInterval(injectDragDropBtn, 200);
 }
 
 const injectDragDropBtn = () => {
     // Check if button is not already injected and the URL matches the condition
-    if (document.getElementById('curtly_drag_drop_btn') == null && window.location.href.toLowerCase().startsWith('https://www.linkedin.com/search/results/people/?keywords=')) {
+    if (document.getElementById('curtly_drag_drop_btn') == null && (window.location.href.toLowerCase().startsWith('https://www.linkedin.com/search/results/people/?keywords=') || window.location.href.toLowerCase().startsWith('https://www.linkedin.com/search/results/people/?heroentitykey='))) {
 
         // Create the button container
         const drag_drop_btn = document.createElement('div');
         drag_drop_btn.innerHTML = drag_drop_btn_innerHtml;
         drag_drop_btn.setAttribute('id', 'curtly_drag_drop_btn');
         drag_drop_btn.setAttribute('style', `
-            background: white;
+            background: #221C36;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             z-index: 999999999999;
             position: fixed;
-            box-shadow: 5px 5px 5px 2px;
+            box-shadow: 1px 1px 3px 1px;
             top: 30%;
             right: 0;
         `);
@@ -45,10 +46,19 @@ const injectDragDropBtn = () => {
             injectSearchListPopupDiv();
         })
 
+
         // Initialize drag functionality
         const draggableArea = document.getElementById('curtly_drag_drop_btn_area');
         let isDragging = false;
         let offsetY = 0;
+
+        drag_drop_btn.addEventListener('mouseover', () => {
+            draggableArea.style.display = 'flex';
+        })
+
+        drag_drop_btn.addEventListener('mouseout', () => {
+            draggableArea.style.display = 'none';
+        })
 
         // Event listeners for drag and drop
         draggableArea.addEventListener('mousedown', (e) => {
@@ -90,7 +100,9 @@ const injectSearchListPopupDiv = async () => {
         if (isLogin?.login) {
             div.style.width = "400px";
             div.innerHTML = `<iframe id="searchListIframe" src="` + chrome.runtime.getURL('searchList.html') + `"></iframe>`;
-            processToGetList(actionType);
+            setTimeout(() => {
+                processToGetList(actionType);
+            }, 500);
             ping_interval = setInterval(startPing, 5000);
         } else {
             div.style.width = "320px";
@@ -101,14 +113,16 @@ const injectSearchListPopupDiv = async () => {
 
     }
     if (isLogin?.login) {
-        processToGetList(actionType);
+        setTimeout(() => {
+            processToGetList(actionType);
+        }, 500);
     } else {
         document.getElementById("searchlistPopupDivClass").style.display = "block";
     }
 }
 
 const start = () => {
-    if (window.location.href.toLowerCase().startsWith('https://www.linkedin.com/search/results/people/?keywords=')) {
+    if (window.location.href.toLowerCase().startsWith('https://www.linkedin.com/search/results/people/?keywords=') || window.location.href.toLowerCase().startsWith('https://www.linkedin.com/search/results/people/?heroentitykey=')) {
         if (window.location.href != currentUri) {
             currentUri = window.location.href;
             if (document.querySelector('[id="searchlistPopupDivClass"]') != null && document.querySelector('[id="searchlistPopupDivClass"]').style.display == "block") {
@@ -132,7 +146,7 @@ const generateRandomString = () => {
     return result;
 }
 
-const processToGetList = (actionType = 'SEND_REQUEST') => {
+const processToGetList = () => {
     if (document.querySelector("main") != null) {
         let arrOfSearchList = []
         let list_of_search = document.querySelectorAll('main ul li.reusable-search__result-container');
@@ -147,18 +161,22 @@ const processToGetList = (actionType = 'SEND_REQUEST') => {
                     "summery": '',
                     "id": '',
                     "saved": false,
-                    "allowToCheck": true
+                    "allowToCheck": true,
+                    "is_first_connection": false
                 }
                 let uniqueid = generateRandomString();
                 list_of_search[k].classList.add(uniqueid);
                 jsonData.id = uniqueid;
 
-                if (actionType == 'SEND_REQUEST') {
-                    jsonData.allowToCheck = (list_of_search[k].querySelector('.entity-result__actions button') != null && list_of_search[k].querySelector('.entity-result__actions button.artdeco-button--muted') == null && list_of_search[k].querySelector('.profile-action-compose-option') == null)
-                } else if (actionType == 'SEND_MESSAGES') {
-                    jsonData.allowToCheck = (list_of_search[k].querySelector('.entity-result__actions button') != null && list_of_search[k].querySelector('.entity-result__actions button.artdeco-button--muted') == null && list_of_search[k].querySelector('.profile-action-compose-option') != null)
-                }
+                jsonData.allowToCheck = ((list_of_search[k].querySelector('.entity-result__actions button') != null
+                    && list_of_search[k].querySelector('.entity-result__actions button.artdeco-button--muted') == null
+                    && list_of_search[k].querySelector('.profile-action-compose-option') == null)
+                    || (list_of_search[k].querySelector('.entity-result__actions button') != null
+                        && list_of_search[k].querySelector('.entity-result__actions button.artdeco-button--muted') == null
+                        && list_of_search[k].querySelector('.profile-action-compose-option') != null)
+                )
 
+                jsonData.is_first_connection = !(list_of_search[k].querySelector('.entity-result__badge .image-text-lockup__text.entity-result__badge-text')?.textContent?.trim()?.includes('3rd') || list_of_search[k].querySelector('.entity-result__badge .image-text-lockup__text.entity-result__badge-text')?.textContent?.trim()?.includes('2nd'))
                 jsonData.imageUri = list_of_search[k].querySelector('img') != null ? list_of_search[k]?.querySelector('img')?.src : "no_user.png";
                 jsonData.name = list_of_search[k].querySelector(".t-roman.t-sans [aria-hidden='true']") != null ? list_of_search[k]?.querySelector(".t-roman.t-sans [aria-hidden='true']")?.textContent?.trim() : list_of_search[k]?.querySelector(".t-roman.t-sans")?.textContent?.trim();
                 jsonData.location = list_of_search[k]?.querySelector(".entity-result__secondary-subtitle")?.textContent?.trim();
@@ -169,16 +187,19 @@ const processToGetList = (actionType = 'SEND_REQUEST') => {
                     arrOfSearchList.push(jsonData);
                 }
             }
-            sendMessageToIframe({ type: "LIST_OF_SEARCHES", data: arrOfSearchList })
+
+            sendMessageToIframe({ type: "LIST_OF_SEARCHES", data: arrOfSearchList });
         }
     }
 }
 
 
+
+
 const sendMessageToIframe = (data) => {
+
     const sendMessage = () => {
         chrome.runtime.sendMessage(data, (response) => {
-            console.log("Response from background script:", response.response);
             connection_estalish = true;
         });
     };
@@ -196,7 +217,6 @@ const sendMessageToIframe = (data) => {
 const startPing = () => {
     chrome.runtime.sendMessage({ type: "PING" }, (response) => {
         connection_estalish = true;
-        console.log("Response from background script:", response.response);
     });
 }
 
@@ -208,8 +228,6 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
             } else {
                 ifLogout();
             }
-        } else if (key === 'actionType') {
-            processToGetList(newValue);
         }
     }
 });
@@ -252,7 +270,6 @@ const showProgressBar = () => {
             Swal.showLoading();
         },
     }).then((result) => {
-        console.log("The alert was closed");
     });
 }
 
@@ -271,7 +288,6 @@ const showProgressBarForMessage = () => {
             Swal.showLoading();
         },
     }).then((result) => {
-        console.log("The alert was closed");
     });
 }
 
@@ -300,7 +316,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                     main_ele.querySelector('.entity-result__actions button')?.click();
                     await delayFor(1200);
                     if (document.querySelector('[data-test-modal-id="send-invite-modal"] .send-invite') != null) {
-                        if (request.message && !continueWithoutMessage) {
+                        if (request.message) {
                             document.querySelector('[data-test-modal-id="send-invite-modal"] .send-invite').querySelector('.artdeco-button--secondary')?.click();
                             await delayFor(1500);
                             if (document.querySelector('[data-test-modal-id="send-invite-modal"] .send-invite') != null) {
@@ -331,13 +347,12 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                                 await deleteCheckbox(request.filterList[i].id)
                                 await delayFor(3000);
                                 continue;
-                            } else if (document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal') != null) {
+                            } else if (document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal,[data-test-modal-id="modal-upsell"] .modal-upsell') != null) {
                                 Swal.close()
                                 let result = await breackOrContinue();
                                 if (result) {
-                                    document.querySelector('[data-test-modal-id="upsell-modal"] button[aria-label="Dismiss"]').click();
+                                    document.querySelector('[data-test-modal-id="upsell-modal"] button[aria-label="Dismiss"],[data-test-modal-id="modal-upsell"] button[aria-label="Dismiss"]').click();
                                     await delayFor(500);
-                                    continueWithoutMessage = true
                                     showProgressBar();
                                     i = i - 1;
                                     continue
@@ -354,13 +369,13 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                             await delayFor(3000);
                             continue;
                         }
-                    } else if (document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal') != null) {
+                    } else if (document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal , [data-test-modal-id="modal-upsell"] .modal-upsell') != null) {
+                        document.querySelector('[data-test-modal-id="upsell-modal"] button[aria-label="Dismiss"],[data-test-modal-id="modal-upsell"] button[aria-label="Dismiss"]')?.click();
                         Swal.close()
                         let result = await breackOrContinue();
                         if (result) {
                             i = i - 1;
                             showProgressBar();
-                            continueWithoutMessage = true
                             continue;
                         } else {
                             break;
@@ -408,11 +423,11 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                         await pastMessageOnLinkedPopup(request.message, document.querySelector('[aria-label="Messaging"] [role="textbox"]'));
                         await clearOtherOpenMessagePopups();
                         await delayFor(2000);
-                    } else if (document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal') != null) {
+                    } else if (document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal,[data-test-modal-id="modal-upsell"] .modal-upsell') != null) {
                         Swal.close()
                         let result = await breackOrContinueForMessageSend();
                         if (result) {
-                            document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal [aria-label="Dismiss"]').click();
+                            document.querySelector('[data-test-modal-id="upsell-modal"] .upsell-modal [aria-label="Dismiss"] ,[data-test-modal-id="modal-upsell"] .modal-upsell [aria-label="Dismiss"]').click();
                             await delayFor(1500);
                             showProgressBarForMessage();
                             continue;
@@ -556,7 +571,11 @@ const pastMessageOnLinkedPopup = (message, i) => {
             await delayFor(800);
             document.querySelector('[data-test-msg-ui-send-mode-toggle-presenter__click-to-send-input]')?.click();
         }
-        document.querySelector('[aria-label="Messaging"] footer.msg-form__footer button.msg-form__send-button')?.click();
+        if (document.querySelector('[aria-label="Messaging"] footer.msg-form__footer button.msg-form__send-button') == null) {
+            document.querySelector('[aria-label="Messaging"] [href="#send-privately-small"]')?.parentElement?.parentElement?.click()
+        } else {
+            document.querySelector('[aria-label="Messaging"] footer.msg-form__footer button.msg-form__send-button')?.click();
+        }
         await delayFor(2000);
         resolve(true);
     })

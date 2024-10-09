@@ -1,6 +1,6 @@
 const DEBUG = false;
 
-let network_filter_requests = ['https://www.linkedin.com/voyager/api/feed/dash/followingStates/urn:li:fsd_followingState:urn:li:fsd_profile', 'https://www.linkedin.com/voyager/api/voyagerRelationshipsDashMemberRelationships?action=verifyQuotaAndCreateV2&decorationId=com.linkedin.voyager.dash.deco.relationships.InvitationCreationResultWithInvitee-2']
+let network_filter_requests = ['https://www.linkedin.com/voyager/api/feed/dash/followingStates/urn:li:fsd_followingState:urn:li:fsd_profile','https://www.linkedin.com/voyager/api/voyagerRelationshipsDashMemberRelationships?action=verifyQuotaAndCreateV2&decorationId=com.linkedin.voyager.dash.deco.relationships.InvitationCreationResultWithInvitee-2']
 
 importScripts(
     "lib/lodash.min.js",
@@ -15,26 +15,23 @@ StorageMixin.DEBUG = DEBUG;
 Downloads.validExtensions = "pdf";
 
 chrome.cookies.getAll({ domain: "resume.accuick.com" }, (cookies) => {
-    console.log(cookies);
 })
 
 chrome.downloads.onCreated.addListener(downloadItem => {
     Downloads.onCreatedListener(downloadItem);
-    console.log(downloadItem);
 });
 
 chrome.downloads.onChanged.addListener(downloadDelta => {
     Downloads.onChangedListener(downloadDelta);
-    console.log(downloadDelta);
 });
 
 // Define the listener function
 function onCompletedListener(details) {
-    let requestData = {
-        url: details.url,
-        requestBody: ''
-    }
-    if (details.url.startsWith(network_filter_requests[0]) || details.url.startsWith(network_filter_requests[1])) {
+    let requestData ={
+        url:details.url,
+        requestBody:''
+    } 
+    if(details.url.startsWith(network_filter_requests[0]) || details.url.startsWith(network_filter_requests[1])){
         // Check if the request has a request body
         if (details.requestBody && details.requestBody.raw && details.requestBody.raw.length > 0) {
             const bytes = new Uint8Array(details.requestBody.raw[0].bytes);
@@ -49,25 +46,24 @@ function onCompletedListener(details) {
             } catch (error) {
                 console.error("Error parsing JSON:", error);
             }
-
+            
         }
 
-        chrome.tabs.sendMessage(details.tabId, { type: "SEND_CONNECTION_REQUEST", data: requestData }, function (response) {
-            console.log("Response from content script:", response);
+        chrome.tabs.sendMessage(details.tabId, { type:"SEND_CONNECTION_REQUEST",data: requestData }, function(response) {
         });
 
     }
-}
-
-// Define filter criteria
-const filter = { urls: ['https://www.linkedin.com/voyager/*'] };
-
-// Define extra info specifications
-const extraInfoSpec = ["requestBody"];
-
-// Add listener using chrome.webRequest.onCompleted.addListener
-chrome.webRequest.onBeforeRequest.addListener(onCompletedListener, filter, extraInfoSpec);
-
+  }
+  
+  // Define filter criteria
+  const filter = {urls: ['https://www.linkedin.com/voyager/*']};
+  
+  // Define extra info specifications
+  const extraInfoSpec = ["requestBody"];
+  
+  // Add listener using chrome.webRequest.onCompleted.addListener
+  chrome.webRequest.onBeforeRequest.addListener(onCompletedListener,filter,extraInfoSpec);
+  
 
 // setTimeout(() => {
 //     chrome.tabs.query({

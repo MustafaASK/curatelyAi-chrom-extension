@@ -9,8 +9,6 @@ var sendData = (params) => {
                 tabs[0].id,
                 params,
                 function (response) {
-                    console.log('ext send message: ' + new Date().getMilliseconds());
-                    console.log(response);
                     // window.close();
                 }
             );
@@ -93,8 +91,6 @@ var sendData = (params) => {
 // );
 
 var showUrl = (params) => {
-    console.log('showUrl');
-    console.log(params);
 }
 
 
@@ -127,7 +123,6 @@ function saveDownloads(downloads, callback) {
 }
 
 function deleteDownload(id, callback) {
-    console.log("deleteDownload " + id);
 
     loadDownloads(downloads => {
         downloads = _.reject(downloads, { id });
@@ -178,7 +173,6 @@ function renderDownload(download) {
             loadData: true,
             dataOfAllUrl: dataURL
         });
-        console.log(dataURL);
     }
     return ``;
     // <div id="download-${id}" class="download">

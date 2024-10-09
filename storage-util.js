@@ -50,7 +50,6 @@ function StorageMixin(defaults, convenienceMethods) {
 
     function log(...args) {
         if (StorageMixin.DEBUG) {
-            console.log(...args);
         }
     }
 

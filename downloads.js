@@ -11,8 +11,6 @@ var sendData = (params) => {
                 tabs[0].id,
                 params,
                 function (response) {
-                    console.log('ext send message: ' + new Date().getMilliseconds());
-                    console.log(response);
                     // window.close();
                 }
             );
@@ -124,7 +122,6 @@ const Downloads = {
 
     log(...args) {
         if (this.DEBUG) {
-            console.log(...args);
         }
     },
 
@@ -140,7 +137,6 @@ const Downloads = {
     }),
 
     onLoad(data) {
-        console.log("onLoad", data);
 
         const { downloads, activeDownload } = data || {};
 
@@ -153,7 +149,6 @@ const Downloads = {
     },
 
     onSave(data) {
-        console.log("onSave", data);
     },
 
     toJSON() {
@@ -197,7 +192,6 @@ const Downloads = {
 
         chrome.extension.isAllowedFileSchemeAccess(allowed => {
             if (!allowed) {
-                console.log("File scheme access is not allowed");
                 return;
             }
 
@@ -221,10 +215,8 @@ const Downloads = {
         const { filename } = this._active;
         const url = "file:///" + filename;
 
-        console.log("Fetching: " + url);
 
         fetch(url).then(response => {
-            console.log("Fetch response:", response);
 
             if (!response.ok) {
                 throw new Error("Network response error");
@@ -232,10 +224,8 @@ const Downloads = {
             return response.blob();
         })
             .then(blob => {
-                console.log("Blob:", blob);
 
                 createDataURL(blob, dataURL => {
-                    console.log({ dataURL });
 
                     sendData({
                         localDataURL: true,
@@ -267,14 +257,12 @@ const Downloads = {
             const newDownload = _.clone(this._active);
             this._list.push(newDownload);
 
-            console.log("Saving new download", newDownload);
         }
     },
 
     create(downloadItem) {
         const { id } = downloadItem || {};
 
-        console.log("Download created:", downloadItem);
 
         if (!_.isFinite(id)) return;
 
@@ -291,7 +279,6 @@ const Downloads = {
             dataURL: ""
         };
 
-        console.log("Saving active id: " + id);
     },
 
     isActiveDownload(downloadDelta) {
@@ -302,22 +289,18 @@ const Downloads = {
     },
 
     change(downloadDelta) {
-        console.log("Download changed:", downloadDelta);
 
         if (!this.isActiveDownload(downloadDelta)) return;
 
-        console.log("Download changed: is active");
 
         const filename = DownloadChange.getFilename(downloadDelta);
         if (_.isString(filename) && filename.length > 0) {
             this._active.filename = filename;
-            console.log("Saving active filename: " + filename);
             return;
         }
 
         if (!DownloadChange.isComplete(downloadDelta)) return;
 
-        console.log("Download complete");
 
         let endTime = DownloadChange.getEndTime(downloadDelta);
         if (!_.isString(endTime)) {

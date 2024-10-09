@@ -182,7 +182,6 @@ if(document.querySelector('.l-section.l-full-height')==null){
             continue;
           }
         }
-        console.log(listOfUrls);
       }
     }finally{
       document.getElementById('linkedInIframe').style.display = 'none';
@@ -210,11 +209,7 @@ if(document.querySelector('.l-section.l-full-height')==null){
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-      console.log(
-          `Storage key "${key}" in namespace "${namespace}" changed.`,
-          `Old value was "${oldValue}", new value is "${newValue}".`
-      );
-
+      
       if(key==='runningTaskData'){
         if(newValue.length>0){
           const container = document.getElementById('progress_list');

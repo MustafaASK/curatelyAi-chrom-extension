@@ -28,8 +28,6 @@ var reactURL = 'https://resume.accuick.com/curatelychromeextensionlinkedindemo/'
 chrome.runtime.onMessage.addListener(
     function (msg, sender, sendResponse) {
         if (msg.localDataURL) {
-            console.log('localData');
-            console.log({ resumeDataURL: msg.dataURL });
         }
         if (msg.localDataURL || msg.loadData) {
             resumeBase64 = (msg.dataURL) ? msg.dataURL : "";
@@ -48,13 +46,11 @@ chrome.runtime.onMessage.addListener(
             });
             isFromLinkedin = true;
         } else if (msg.pdfPath) {
-            console.log(msg);
             sendDataFromExtensionToIframe(msg);
             sendResponse({
                 message: "PDF Called"
             });
         } else if (msg.responseText) {
-            console.log(msg.responseText);
             sendResponse({
                 message: "Loading complete"
             });
@@ -62,8 +58,6 @@ chrome.runtime.onMessage.addListener(
     }
 );
 var initialLoad = function () {
-    console.log("initialLoad");
-    console.log('page send message: ' + new Date().getMilliseconds());
 
 
     tempJson = {
@@ -93,15 +87,14 @@ var initialLoad = function () {
 
 
 function loadIframeUrl(reload) {
-    console.log("loadIframeUrl");
     if (reload) {
         resumeBase64 = '';
         tempJson.resumeBase64 = '';
     }
-    // if ($('#accuickCuratelyChromeExtensionDiv').length) {
-    //     // $('#accuickCuratelyChromeExtensionDiv').remove();
-    //     $('#accuickCuratelyChromeExtensionDiv').css('display', 'none');
-    // }
+    if ($('#accuickCuratelyChromeExtensionDiv').length) {
+        // $('#accuickCuratelyChromeExtensionDiv').remove();
+        $('#accuickCuratelyChromeExtensionDiv').css('display', 'none');
+    }
 
 
     if (
@@ -130,7 +123,6 @@ function loadIframeUrl(reload) {
     }
 }
 function sendDataFromExtensionToIframe(data) {
-    console.log("sendDataFromExtensionToIframe");
     const iframe = document.getElementById("accuickCuratelyChromeExtensionIframe");
     if (iframe && iframe.contentWindow) {
         iframe.contentWindow.postMessage(data, "*");
@@ -145,7 +137,6 @@ function sendDataFromExtensionToIframe(data) {
 }
 
 function showDownloadPDFIntro() {
-    console.log("showDownloadPDFIntro");
     if (document.querySelectorAll("[aria-label='More actions']")?.length > 1 || document.querySelector("[data-walkme-id='profile-more-actions'] .more-actions__trigger")) {
         let element = document.querySelectorAll(".artdeco-button--2[aria-label='More actions']")[1] ? document.querySelectorAll(".artdeco-button--2[aria-label='More actions']")[1] : document.querySelector("[data-walkme-id='profile-more-actions'] .more-actions__trigger");
         introJs().setOptions({
@@ -162,17 +153,15 @@ function showDownloadPDFIntro() {
 window.addEventListener('message', async function (event) {
     if (event?.data?.initialLoad) {
         sendDataFromExtensionToIframe({ passingDataFromCurately: true });
-        console.log("Message received from the child: " + event.data);
     }
     if (event?.data?.dataFromIframeToCurately) {
         let isLogin = await chrome.storage.sync.get(['login']);
-        if (isLogin?.login) {
+        if(isLogin?.login){
             await chrome.storage.sync.remove('login');
-        } else {
+        }else{
             await chrome.storage.sync.set({ login: true });
         }
         sendDataFromExtensionToIframe({ passingDataFromCurately: true, json: tempJson, loadInitialData: true });
-        console.log("Message received from the child: " + event.data);
     }
     if (event?.data?.expandIframeWidth) {
         $('#accuickCuratelyChromeExtensionDiv').css("width", "330px !important");
@@ -189,7 +178,6 @@ window.addEventListener('message', async function (event) {
             $('#accuickCuratelyChromeExtensionDiv').css('display', 'none');
             $('#searchlistPopupDivClass').css('display', 'none');
             document.getElementById('accuickCuratelyChromeExtensionDiv').classList.add('minimizedDiv');
-            console.log('none');
         }
     }
     if (event?.data?.maximizeDiv) {
@@ -221,7 +209,7 @@ window.addEventListener('message', async function (event) {
             document.getElementById('accuickCuratelyChromeExtensionDiv').classList.add('minimizedDiv');
         }
     }
-    if (event?.data?.refreshVersion) {
+    if(event?.data?.refreshVersion){
         if ($('#accuickCuratelyChromeExtensionDiv').length) {
             $('#accuickCuratelyChromeExtensionDiv').remove();
         }
@@ -244,7 +232,6 @@ setInterval(() => {
         // URL changed
 
         currentlySelectedURL = currUrl;
-        console.log(`URL changed to : ${currUrl}`);
         sendDataFromExtensionToIframe({ reloadAllDataFromCurately: true });
 
         if (/^(ftp|http|https):\/\/(?:www\.)?linkedin.com\/(in|pub)\/[a-zA-Z0-9_-]+\/?$/.test(currUrl)) {
@@ -253,7 +240,6 @@ setInterval(() => {
             setTimeout(() => {
                 initialLoad();
                 $('#accuickCuratelyChromeExtensionDiv').css('display', 'block');
-                console.log('block');
             }, 1500);
             // }
         } else {
@@ -261,7 +247,6 @@ setInterval(() => {
                 // $('#accuickCuratelyChromeExtensionDiv').remove();
                 $('#accuickCuratelyChromeExtensionDiv').css('display', 'none');
                 document.getElementById('accuickCuratelyChromeExtensionDiv').classList.add('minimizedDiv');
-                console.log('none');
             }
         }
     }
@@ -280,11 +265,6 @@ $(document).ready(function () {
             chrome.runtime.sendMessage({
                 isLinkedinCurately: window.location.href.includes('www.linkedin.com')
             }, function (response) {
-                if (chrome.runtime.lastError) {
-                    console.error("Error:", chrome.runtime.lastError.message);
-                } else {
-                    console.log("Response from background script:", response.response);
-                }
             });
         }, 1000);
         $(document).on("click", ".closePopup", function () {
@@ -292,7 +272,6 @@ $(document).ready(function () {
                 // $('#accuickCuratelyChromeExtensionDiv').remove();
                 $('#accuickCuratelyChromeExtensionDiv').css('display', 'none');
                 document.getElementById('accuickCuratelyChromeExtensionDiv').classList.add('minimizedDiv');
-                console.log('none');
             }
         });
     }
@@ -410,48 +389,47 @@ const stylesForCuratelyIFrame = `<style>
 
 
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.type === "SEND_CONNECTION_REQUEST") {
-        if (message.data.url.startsWith("https://www.linkedin.com/voyager/api/voyagerRelationshipsDashMemberRelationships?action=verifyQuotaAndCreateV2&decorationId=com.linkedin.voyager.dash.deco.relationships.InvitationCreationResultWithInvitee-2")) {
-            let id = split_profile_id(message.data.requestBody.invitee.inviteeUnion.memberProfile, 0);
-            let send_message = message.data.requestBody?.customMessage;
-            start_scraping(id, send_message);
-        } else {
-            let id = split_profile_id(message.data.url, 1);
+        if(message.data.url.startsWith("https://www.linkedin.com/voyager/api/voyagerRelationshipsDashMemberRelationships?action=verifyQuotaAndCreateV2&decorationId=com.linkedin.voyager.dash.deco.relationships.InvitationCreationResultWithInvitee-2")){
+            let id = split_profile_id(message.data.requestBody.invitee.inviteeUnion.memberProfile,0);
+            let send_message=message.data.requestBody?.customMessage;
+            start_scraping(id,send_message);
+        }else{
+            let id = split_profile_id(message.data.url,1);
             start_scraping(id);
         }
     }
 })
 
 
-function split_profile_id(raw_id, get_part) {
-    return raw_id.split("urn:li:fsd_profile:")[get_part] != '' ? raw_id.split("urn:li:fsd_profile:")[get_part] : raw_id.split("urn:li:fsd_profile:")[get_part + 1];
+function split_profile_id(raw_id,get_part){
+    return raw_id.split("urn:li:fsd_profile:")[get_part]!=''?raw_id.split("urn:li:fsd_profile:")[get_part]:raw_id.split("urn:li:fsd_profile:")[get_part+1];
 }
 
-function start_scraping(id, message = null) {
-    let send_connect_request_details = {
-        linkedin_url: '',
-        profile_name: '',
-        job_title: '',
-        location: '',
-        send_message: '',
-        sent_by: ''
+function start_scraping(id,message=null){
+    let send_connect_request_details={
+        linkedin_url:'',
+        profile_name:'',
+        job_title:'',
+        location:'',
+        send_message:'',
+        sent_by:''
     }
 
-    send_connect_request_details.sent_by = document.querySelector('.global-nav__me-photo').getAttribute("alt");
-    send_connect_request_details.send_message = message;
+    send_connect_request_details.sent_by=document.querySelector('.global-nav__me-photo').getAttribute("alt");
+    send_connect_request_details.send_message=message;
     const elementsWithHref = document.querySelectorAll('a[href]');
-    for (let i = 0; i < elementsWithHref.length; i++) {
-        if (elementsWithHref[i].href.includes("_miniProfile%3A" + id)) {
+    for(let i=0;i<elementsWithHref.length;i++){
+        if(elementsWithHref[i].href.includes("_miniProfile%3A"+id)){
             let parent_element = elementsWithHref[i].parentElement.parentElement.parentElement;
-            if (parent_element) {
-                send_connect_request_details.location = elementsWithHref[i]?.parentElement?.parentElement?.parentElement?.querySelector(".entity-result__secondary-subtitle")?.textContent?.trim();
-                send_connect_request_details.profile_name = elementsWithHref[i]?.parentElement?.parentElement?.parentElement?.querySelector('.t-roman.t-sans [aria-hidden="true"]')?.textContent?.trim();
-                send_connect_request_details.job_title = elementsWithHref[i]?.parentElement?.parentElement?.parentElement?.querySelector(".entity-result__primary-subtitle")?.textContent?.trim();
-                send_connect_request_details.linkedin_url = elementsWithHref[i].href
+            if(parent_element){
+                send_connect_request_details.location=elementsWithHref[i]?.parentElement?.parentElement?.parentElement?.querySelector(".entity-result__secondary-subtitle")?.textContent?.trim();
+                send_connect_request_details.profile_name=elementsWithHref[i]?.parentElement?.parentElement?.parentElement?.querySelector('.t-roman.t-sans [aria-hidden="true"]')?.textContent?.trim();
+                send_connect_request_details.job_title=elementsWithHref[i]?.parentElement?.parentElement?.parentElement?.querySelector(".entity-result__primary-subtitle")?.textContent?.trim();
+                send_connect_request_details.linkedin_url=elementsWithHref[i].href
             }
             break;
         }
     }
-    console.log(send_connect_request_details);
 }

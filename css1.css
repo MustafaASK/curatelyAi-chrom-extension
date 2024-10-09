@@ -1,14 +1,22 @@
+@font-face {
+    font-family: 'SegoeUI';
+    src: url('fonts/SegoeUI.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #354053;
     color: var(--accuickBlack);
-    font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    font-family: 'SegoeUI', Arial, sans-serif;
     margin: 0
 }
 
+
 code {
-    font-family: source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace
+    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace
 }
 
 * {
@@ -192,33 +200,33 @@ code {
     --border-radius-large: 8px;
     --border-gray-4: 1px solid var(--c-neutral-30);
     --box-shadow-light: 0 0 4px 0 rgb(0 0 0/8%);
-    --box-shadow-medium: 0 1px 3px rgba(0,0,0,.1);
-    --box-shadow-regular: 0 2px 4px rgba(0,0,0,.1);
+    --box-shadow-medium: 0 1px 3px rgba(0, 0, 0, .1);
+    --box-shadow-regular: 0 2px 4px rgba(0, 0, 0, .1);
     --shadow-1: 0 3px 6px 0 rgb(0 0 0/9%);
     --shadow-2: 0 4px 9px rgb(0 0 0/9%);
-    --shadow-3: 0 5px 12px rgba(0,0,0,.12);
-    --shadow-4: 0 3px 20px rgba(0,0,0,.1);
-    --line-height-base: 1.5!important;
-    --line-height-computed: 21px!important;
-    --screen-sm-min: 660px!important;
-    --screen-md-min: 720px!important;
-    --screen-lg-min: 1024px!important;
-    --screen-desktop: 1224px!important;
-    --screen-desktop-hd: 1366px!important;
-    --screen-wide-desktop: 1600px!important;
-    --screen-extension-sidebar: 320px!important;
-    --screen-xxs-max: 480px!important;
-    --screen-xs-max: (var(--screen-sm-min) - 1)!important;
-    --screen-sm-max: (var(--screen-md-min) - 1)!important;
-    --screen-md-max: (var(--screen-lg-min) - 1)!important;
-    --screen-lg-max: (var(--screen-desktop -) 1)!important;
-    --screen-desktop-max: (var(--screen-desktop-hd) - 1)!important;
+    --shadow-3: 0 5px 12px rgba(0, 0, 0, .12);
+    --shadow-4: 0 3px 20px rgba(0, 0, 0, .1);
+    --line-height-base: 1.5 !important;
+    --line-height-computed: 21px !important;
+    --screen-sm-min: 660px !important;
+    --screen-md-min: 720px !important;
+    --screen-lg-min: 1024px !important;
+    --screen-desktop: 1224px !important;
+    --screen-desktop-hd: 1366px !important;
+    --screen-wide-desktop: 1600px !important;
+    --screen-extension-sidebar: 320px !important;
+    --screen-xxs-max: 480px !important;
+    --screen-xs-max: (var(--screen-sm-min) - 1) !important;
+    --screen-sm-max: (var(--screen-md-min) - 1) !important;
+    --screen-md-max: (var(--screen-lg-min) - 1) !important;
+    --screen-lg-max: (var(--screen-desktop -) 1) !important;
+    --screen-desktop-max: (var(--screen-desktop-hd) - 1) !important;
     --header-height: 32px;
     --med-header-height: 56px;
     --mobile-header-height: 40px;
     --sidebar-width: 176px;
     --warning-banner-height: 21px;
-    --modal-content-border-color: rgba(0,0,0,.2)!important;
+    --modal-content-border-color: rgba(0, 0, 0, .2) !important;
     --transition-speed: all 0.2s ease-out;
     --page-header-height: 50px;
     --filter-header-height: 50px;
@@ -227,9 +235,9 @@ code {
 }
 
 .MuiCircularProgress-root.MuiCircularProgress-indeterminate {
-    left: calc(50vw - 20px)!important;
-    position: absolute!important;
-    top: calc(50vh - 20px)!important
+    left: calc(50vw - 20px) !important;
+    position: absolute !important;
+    top: calc(50vh - 20px) !important
 }
 
 .loader {
@@ -241,8 +249,8 @@ code {
 }
 
 .loader div {
-    -webkit-animation: loader 1.2s cubic-bezier(.5,0,.5,1) infinite;
-    animation: loader 1.2s cubic-bezier(.5,0,.5,1) infinite;
+    -webkit-animation: loader 1.2s cubic-bezier(.5, 0, .5, 1) infinite;
+    animation: loader 1.2s cubic-bezier(.5, 0, .5, 1) infinite;
     border: 5px solid transparent;
     border-radius: 50%;
     border-top-color: #0075b0;
@@ -305,7 +313,7 @@ code {
 
 .dashLogoImg {
     cursor: pointer;
-    width: 20px
+    width: 80px
 }
 
 .logoImg {
@@ -437,7 +445,7 @@ button {
     padding: 0 12px
 }
 
-.css-1b1jvye{
+.css-1b1jvye {
     box-sizing: border-box;
     display: flex;
     flex-flow: wrap;
@@ -559,7 +567,7 @@ button {
     height: 97vh;
 }
 
-.sendRequest{
+.sendRequest {
     position: fixed;
     bottom: 0px;
     width: 98%;
@@ -571,37 +579,37 @@ button {
     align-items: center;
 }
 
-.mb-100px{
+.mb-100px {
     margin-bottom: 100px !important;
 }
 
-.d-flex-align-items-center{
+.d-flex-align-items-center {
     display: flex;
     align-items: center;
 }
 
-.d-flex-justify-content-between{
+.d-flex-justify-content-between {
     display: flex;
     justify-content: space-between;
 }
 
-.checkbox-size{
+.checkbox-size {
     transform: scale(1.5);
 }
 
-.label-text{
-    margin-left: 10px;
+.label-text {
     font-size: 16px;
     font-weight: 700;
 }
 
-.border-box-shadow{
+.border-box-shadow {
     border: 1px solid gray !important;
     box-shadow: 1px -3px 13px -5px !important;
 }
 
-.bottom-done_btn{
+.bottom-done_btn {
     display: none;
+    z-index: 9999;
 }
 
 
@@ -628,7 +636,7 @@ button {
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
 }
 
@@ -680,36 +688,42 @@ button {
 .profile-card {
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: transform 0.3s;
     margin: 10px;
 }
+
 .profile-image {
     border-radius: 50%;
     width: 50px;
     height: 50px;
     object-fit: cover;
 }
+
 .col-2 {
     align-self: baseline;
 }
+
 .profile-details {
     align-self: auto;
     margin-left: 20px;
     flex-grow: 1;
 }
+
 .profile-name {
     font-size: 1.5em;
     font-weight: bold;
     margin: 5px 0;
 }
+
 .profile-location,
 .profile-job-title,
 .profile-summary {
     margin: 5px 0;
     color: #666;
 }
+
 /* .send-button {
     background-color: #0077b5;
     color: white;
@@ -728,4 +742,308 @@ button {
 .profile-header {
     display: flex;
     align-items: center;
+}
+
+
+.bottom-div {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 5px;
+    background: #d0e3ff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.f-12 {
+    font-size: 12px !important;
+}
+
+
+
+.ovrly {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    /* semi-transparent black */
+    z-index: 1000;
+    /* Ensure it stays on top */
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: absolute;
+    animation: rotate 1s linear infinite
+}
+
+.loader::before,
+.loader::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid #FFF;
+    animation: prixClipFix 2s linear infinite;
+}
+
+.loader::after {
+    transform: rotate3d(90, 90, 0, 180deg);
+    border-color: #D0E3FF;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes prixClipFix {
+    0% {
+        clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0)
+    }
+
+    50% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0)
+    }
+
+    75%,
+    100% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%)
+    }
+}
+
+.mail-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black background with opacity */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    /* Center the modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
+
+/* Close button */
+.close-mail,
+.close-progress-modal {
+    color: #aaa;
+    /* float: right; */
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus,
+.close-progress-modal:hover,
+.close-progress-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Styling the select element */
+.custom-select select {
+    width: 100%;
+    padding: 10px;
+    /* border: 2px solid #333; */
+    border-radius: 5px;
+    appearance: none;
+    /* Remove the default arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguMDAyMzUgMTEuMzMzTDEuNjY5OTggNC45OTk2OUwyLjMzMjM0IDQuMzMzNjZMOCA5Ljk5OTY1TDEzLjY2NiA0LjMzMzM2TDE0LjMzMzMgNC45OTk2OUw4Ljk5OTg4IDExLjMzM0w4LjAwMjM1IDExLjMzM1oiIGZpbGw9IiMwMDAwMDAiLz4KPC9zdmc+Cg==');
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+/* Focus styles */
+.custom-select select:focus {
+    outline: none;
+    border-color: #555;
+}
+
+/* Style the options (this won't change the default dropdown options styling in most browsers, but it's a base setup) */
+.custom-select select option {
+    padding: 10px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.full-width {
+    width: 100%;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.ql-editor {
+    height: 142px !important;
+
+}
+
+.input-label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14px;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+}
+
+.MuiInputBase-inputSizeSmall {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1a1a1a;
+
+}
+
+/* select {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14px;
+    color: #1a1a1a;
+} */
+
+select>option {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    color: #1a1a1a;
+}
+
+#mailSendBtn {
+
+    width: auto !important;
+    height: 26px !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-transform: capitalize !important;
+
+}
+
+.send-btn-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 8px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.css-9mgopn-MuiDivider-root {
+    margin: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    border-width: 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.12);
+    border-bottom-width: thin;
+}
+
+.profile-link {
+    color: #354053;
+    text-decoration: none;
+}
+
+.profile-link:hover {
+    text-decoration: underline;
+}
+
+.progress-modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    /* Distance from the top */
+    right: 20px;
+    /* Distance from the right */
+    width: 320px;
+    /* Width of the modal */
+    /* padding: 20px; */
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 130px;
+    border-radius: 6px;
+    /* Ensures it stays above other content */
+}
+
+.progress-modal h2,
+.close-progress-modal {
+    padding: 8px 8px 4px 8px;
+}
+
+.progress-modal .progress-content {
+    padding: 12px 8px 8px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+}
+
+#progressContainer {
+    padding-right: 8px;
+    padding-left: 8px;
+    ;
 }
